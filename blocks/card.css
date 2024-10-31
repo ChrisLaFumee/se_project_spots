@@ -13,9 +13,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card__title {
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  max-width: 353px;
 }
 
 .card__like-button {
@@ -24,4 +33,14 @@
   width: 23px;
   height: 20px;
   opacity: 40%;
+}
+
+.card__like-button:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 627px) {
+  .card__image {
+    height: 288px;
+  }
 }
