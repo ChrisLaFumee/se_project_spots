@@ -7,6 +7,7 @@
   width: 413px;
   object-fit: cover;
   display: block;
+  border-radius: 8px;
 }
 
 .card__content {
@@ -25,6 +26,8 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   max-width: 353px;
+  margin: 0;
+  color: #212121;
 }
 
 .card__like-button {
@@ -37,10 +40,21 @@
 
 .card__like-button:hover {
   cursor: pointer;
+  opacity: 100%;
 }
 
 @media screen and (max-width: 627px) {
   .card__image {
     height: 288px;
+  }
+
+  .card__title {
+    font-size: 16px;
+  }
+
+  .card__like-button {
+    width: 20px;
+    height: 18px;
+    border: 2px;
   }
 }
