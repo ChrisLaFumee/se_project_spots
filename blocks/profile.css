@@ -82,6 +82,7 @@
     align-items: center;
     text-align: center;
     padding-top: 20px;
+    overflow: hidden;
   }
 
   .profile__avatar {
