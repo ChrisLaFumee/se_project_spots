@@ -24,3 +24,7 @@ This project is introduces responsive design for viewing on all screen sizes. It
 **GitHub**
 
 https://chrislafumee.github.io/se_project_spots/
+
+**Screen Share Video Recording**
+
+https://drive.google.com/file/d/1vJIZ-1zegN_0MGpuUdayfpRsvBG8CURc/view?usp=sharing
