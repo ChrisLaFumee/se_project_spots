@@ -13,6 +13,7 @@
   object-fit: cover;
   display: block;
   border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .card__title {
@@ -23,7 +24,7 @@
   overflow: hidden;
   text-wrap: nowrap;
   max-width: 353px;
-  margin: 12px 0 36px;
+  margin: 0;
   color: #212121;
 }
 
@@ -36,7 +37,7 @@
   height: 20px;
   opacity: 40%;
   background-color: transparent;
-  margin-top: 12px;
+  margin: 0;
 }
 
 .card__like-button:hover {
@@ -46,7 +47,6 @@
 
 @media screen and (max-width: 627px) {
   .card {
-    height: 318px;
     width: 288px;
   }
 
