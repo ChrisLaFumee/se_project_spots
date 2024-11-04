@@ -5,8 +5,6 @@
 .card__content {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 20px;
 }
 
 .card__image {
@@ -25,16 +23,20 @@
   overflow: hidden;
   text-wrap: nowrap;
   max-width: 353px;
-  margin: 0;
+  margin: 12px 0 36px;
   color: #212121;
 }
 
 .card__like-button {
   background-image: url(../images/like__button.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
   border: none;
   width: 23px;
   height: 20px;
   opacity: 40%;
+  background-color: transparent;
+  margin-top: 12px;
 }
 
 .card__like-button:hover {
@@ -43,8 +45,14 @@
 }
 
 @media screen and (max-width: 627px) {
+  .card {
+    height: 318px;
+    width: 288px;
+  }
+
   .card__image {
     height: 288px;
+    width: 288px;
   }
 
   .card__title {

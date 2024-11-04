@@ -4,11 +4,6 @@
   border-bottom: 1px rgba(33, 33, 33, 0.4) solid;
 }
 
-.page__section {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
 .profile__avatar {
   height: 190px;
   width: 190px;
@@ -51,7 +46,7 @@
 
 .profile__edit-button {
   display: flex;
-  margin: 12px 0;
+  margin-top: auto;
   border: none;
   background: none;
   gap: 8px;
@@ -80,7 +75,7 @@
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   border-radius: 8px;
   background-color: #212121;
-  padding: 18px 32px;
+  padding: 18px;
   gap: 8px;
   width: 149px;
   height: 52px;
