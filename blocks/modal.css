@@ -60,7 +60,6 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 32px;
-  width: 49px;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-weight: 500;
   font-size: 16px;
@@ -70,7 +69,6 @@
 }
 
 .modal__input {
-  width: 630px;
   border-radius: 8px;
   color: #212121;
   opacity: 40%;
