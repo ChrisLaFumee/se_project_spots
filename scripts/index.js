@@ -63,7 +63,7 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", () => {
-    cardDeleteButton.classList.remove("card__content");
+    cardElement.remove();
   });
 
   return cardElement;
