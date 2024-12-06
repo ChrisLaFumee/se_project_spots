@@ -56,6 +56,7 @@
   opacity: 70%;
   color: #212121;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .profile__edit-button:hover {
