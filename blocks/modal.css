@@ -165,6 +165,7 @@
   .modal__close-button {
     top: 12px;
     right: 12px;
+    padding: 0;
   }
 
   .modal__label {
@@ -188,6 +189,7 @@
   .modal__input {
     max-width: 276px;
     padding: 16px 12px;
+    width: 100%;
   }
 
   .modal__container_type_preview {
