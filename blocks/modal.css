@@ -182,7 +182,6 @@
 
 @media screen and (max-width: 320px) {
   .modal {
-    max-width: 276px;
     padding: 0 10px;
   }
 
@@ -195,11 +194,17 @@
     max-width: 288px;
     height: 426px;
     top: 89px;
-    left: 16px;
     object-fit: cover;
+    padding: 0;
    }
 
    .modal__image {
+    max-width: 100%;
     object-fit: cover;
+   }
+
+   .modal__close-button_type_preview{
+    top: -32.5px;
+    right: 0;
    }
 }
