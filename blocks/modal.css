@@ -51,7 +51,7 @@
   border-radius: 8px;
 }
 
-.modal__caption{
+.modal__caption {
   background-color: #212121;
   margin: 0;
   width: fit-content;
@@ -200,15 +200,15 @@
     top: 89px;
     object-fit: cover;
     padding: 0;
-   }
+  }
 
-   .modal__image {
+  .modal__image {
     max-width: 100%;
     object-fit: cover;
-   }
+  }
 
-   .modal__close-button_type_preview{
+  .modal__close-button_type_preview {
     top: -32.5px;
     right: 0;
-   }
+  }
 }
