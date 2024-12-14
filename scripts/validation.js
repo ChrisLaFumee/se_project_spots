@@ -19,11 +19,11 @@ const hideInputError = (formEl, inputEl, config) => {
   inputEl.classList.remove(config.inputErrorClass);
 };
 
-const checkInputValidity = (formEl, inputEl) => {
+const checkInputValidity = (formEl, inputEl, config) => {
   if (!inputEl.validity.valid) {
-    showInputError(formEl, inputEl, inputEl.validationMessage);
+    showInputError(formEl, inputEl, inputEl.validationMessage, config);
   } else {
-    hideInputError(formEl, inputEl);
+    hideInputError(formEl, inputEl, config);
   }
 };
 
@@ -36,10 +36,10 @@ const hasInvalidInput = (inputList) => {
 const toggleButtonState = (inputList, buttonEl, config) => {
   if (hasInvalidInput(inputList)) {
     disableButton(buttonEl);
-    buttonEl.classList.add(config.modalInactiveButtonClass);
+    buttonEl.classList.add("modal__submit-button_disabled");
   } else {
     buttonEl.disabled = false;
-    buttonEl.classList.remove(config.modalInactiveButtonClass);
+    buttonEl.classList.remove("modal__submit-button_disabled");
   }
 };
 
@@ -47,9 +47,9 @@ const disableButton = (buttonEl) => {
   buttonEl.disabled = true;
 };
 
-const resetValidation = (formEl, inputList) => {
+const resetValidation = (formEl, inputList, config) => {
   inputList.forEach((input) => {
-    hideInputError(formEl, input);
+    hideInputError(formEl, input, config);
   });
 };
 

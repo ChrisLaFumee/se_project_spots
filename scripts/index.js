@@ -112,7 +112,7 @@ function handleAddCardSubmit(evt) {
 editModalButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  resetValidation(editFormElement, [nameInput, descriptionInput]);
+  resetValidation(editFormElement, [nameInput, descriptionInput], settings);
   openModal(editModal);
 });
 
