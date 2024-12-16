@@ -86,10 +86,12 @@ function getCardElement(data) {
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", handleEscKeyPress);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", handleEscKeyPress);
 }
 
 function handleEditFormSubmit(evt) {
@@ -115,6 +117,26 @@ editModalButton.addEventListener("click", () => {
   resetValidation(editFormElement, [nameInput, descriptionInput], settings);
   openModal(editModal);
 });
+
+document.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("modal")) {
+    const openedModal = document.querySelector(".modal_opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+});
+
+function handleEscKeyPress(evt) {
+  console.log("Key pressed:", evt.key);
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal_opened");
+    console.log("Opened modal found:", openedModal);
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
 
 editModalCloseButton.addEventListener("click", () => {
   closeModal(editModal);
