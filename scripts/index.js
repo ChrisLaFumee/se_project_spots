@@ -30,16 +30,20 @@ const cardModalButton = document.querySelector(".profile__add-button");
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
+const modals = document.querySelectorAll(".modal");
+
+/* -------------------------------------------------------------------------- */
+/*                      Comment Divider = Shift + Alt + X                     */
+/* -------------------------------------------------------------------------- */
+
 const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
-const editModalCloseButton = editModal.querySelector(".modal__close-button");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
 
 const cardModal = document.querySelector("#add-card-modal");
 const cardForm = cardModal.querySelector(".modal__form");
 const cardSubmitButton = cardModal.querySelector(".modal__submit-button");
-const cardModalCloseButton = cardModal.querySelector(".modal__close-button");
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 
@@ -118,13 +122,15 @@ editModalButton.addEventListener("click", () => {
   openModal(editModal);
 });
 
-document.addEventListener("click", (evt) => {
-  if (evt.target.classList.contains("modal")) {
-    const openedModal = document.querySelector(".modal_opened");
-    if (openedModal) {
-      closeModal(openedModal);
+modals.forEach((modal) => {
+  modal.addEventListener("mousedown", (evt) => {
+    if (
+      evt.target.classList.contains("modal") ||
+      evt.target.classList.contains("modal__close-button")
+    ) {
+      closeModal(modal);
     }
-  }
+  });
 });
 
 function handleEscKeyPress(evt) {
@@ -138,20 +144,8 @@ function handleEscKeyPress(evt) {
   }
 }
 
-editModalCloseButton.addEventListener("click", () => {
-  closeModal(editModal);
-});
-
 cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
-});
-
-cardModalCloseButton.addEventListener("click", () => {
-  closeModal(cardModal);
-});
-
-previewModalCloseButton.addEventListener("click", () => {
-  closeModal(previewModal);
 });
 
 editFormElement.addEventListener("submit", handleEditFormSubmit);

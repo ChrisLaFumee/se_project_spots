@@ -35,17 +35,20 @@ const hasInvalidInput = (inputList) => {
 
 const toggleButtonState = (inputList, buttonEl, config) => {
   if (hasInvalidInput(inputList)) {
-    disableButton(buttonEl);
-    buttonEl.classList.add("modal__submit-button_disabled");
+    disableButton(buttonEl, config);
   } else {
-    buttonEl.disabled = false;
-    buttonEl.classList.remove("modal__submit-button_disabled");
+    enableButton(buttonEl, config);
   }
 };
 
-const disableButton = (buttonEl) => {
+const disableButton = (buttonEl, { inactiveButtonClass }) => {
   buttonEl.disabled = true;
-  buttonEl.classList.add("modal__submit-button_disabled");
+  buttonEl.classList.add(inactiveButtonClass);
+};
+
+const enableButton = (buttonEl, { inactiveButtonClass }) => {
+  buttonEl.disabled = false;
+  buttonEl.classList.remove(inactiveButtonClass);
 };
 
 const resetValidation = (formEl, inputList, config) => {
