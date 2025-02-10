@@ -1,3 +1,10 @@
+import "../pages/index.css";
+import stepsSrc from "../images/steps.png";
+import { enableValidation, validationConfig } from "../scripts/validation.js";
+
+const stepsImage = document.getElementById("image-steps");
+stepsImage.src = stepsSrc;
+
 const initialCards = [
   {
     name: "Val Thorens",
@@ -50,9 +57,6 @@ const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImageEl = previewModal.querySelector(".modal__image");
 const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
-const previewModalCloseButton = previewModal.querySelector(
-  ".modal__close-button_type_preview"
-);
 
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
@@ -155,3 +159,5 @@ initialCards.forEach((item) => {
   const cardElement = getCardElement(item);
   cardsList.append(cardElement);
 });
+
+enableValidation(validationConfig);
