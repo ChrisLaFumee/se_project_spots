@@ -1,6 +1,7 @@
 import "../pages/index.css";
 import stepsSrc from "../images/steps.png";
 import { enableValidation, validationConfig } from "../scripts/validation.js";
+import Api from "../scripts/Api.js";
 
 const stepsImage = document.getElementById("image-steps");
 stepsImage.src = stepsSrc;
@@ -31,6 +32,18 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "26627038-f6d7-4e18-8263-480975084a96",
+    "Content-Type": "application/json",
+  },
+});
+
+api.getInitialCards().then((cards) => {
+  console.log(cards);
+});
 
 const editModalButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__add-button");

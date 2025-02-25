@@ -22,7 +22,7 @@
       />
       <header class="header">
         <img
-          src="<%=require('./images/spots_logo.svg')%>"
+          src="<%= require('./images/spots_logo.svg')%>"
           alt="Logo"
           class="header__logo"
         />
@@ -30,7 +30,7 @@
       <main class="content">
         <section class="profile page__section">
           <img
-            src="./images/avatar.jpg"
+            src="<%= require('./images/avatar.jpg')%>"
             alt="Bessie Coleman"
             class="profile__avatar"
           />
@@ -38,13 +38,15 @@
             <h1 class="profile__name">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
             <button class="profile__edit-button" type="button">
-              <img src="./images/pencil_icon.svg" alt="Pencil icon" />Edit
-              Profile
+              <img
+                src="<%= require('./images/pencil_icon.svg')%>"
+                alt="Pencil icon"
+              />Edit Profile
             </button>
           </div>
           <button class="profile__add-button" type="button">
             <img
-              src="./images/plus_button.svg"
+              src="<%= require('./images/plus_button.svg')%>"
               alt="New Post"
               class="profile__add-button-image"
             />New Post
