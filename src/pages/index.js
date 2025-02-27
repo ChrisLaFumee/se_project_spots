@@ -26,7 +26,6 @@ api
   .then((user) => {
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
-    profileAvatar.src = user.avatar;
   })
   .catch(console.error);
 
@@ -102,19 +101,50 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileDescription.textContent = descriptionInput.value;
-  closeModal(editModal);
+  api
+    .editUserInfo({
+      name: nameInput.value,
+      about: descriptionInput.value,
+    })
+    .then((user) => {
+      profileName.textContent = user.name;
+      profileDescription.textContent = user.about;
+      editFormElement.reset();
+      resetValidation(
+        editFormElement,
+        [nameInput, descriptionInput],
+        validationConfig
+      );
+      closeModal(editModal);
+      disableButton(
+        editFormElement.querySelector(".modal__submit-button"),
+        settings
+      );
+    })
+    .catch(console.error);
 }
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
-  const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
-  const cardElement = getCardElement(inputValues);
-  cardsList.prepend(cardElement);
-  cardForm.reset();
-  disableButton(cardSubmitButton, settings);
-  closeModal(cardModal);
+  const cardData = {
+    name: cardNameInput.value,
+    link: cardLinkInput.value,
+  };
+  api
+    .addCard(cardData)
+    .then((card) => {
+      const cardElement = getCardElement(card);
+      cardsList.prepend(cardElement);
+      cardForm.reset();
+      resetValidation(
+        cardForm,
+        [cardNameInput, cardLinkInput],
+        validationConfig
+      );
+      closeModal(cardModal);
+      disableButton(cardForm.querySelector(".modal__submit-button"), settings);
+    })
+    .catch(console.error);
 }
 
 editModalButton.addEventListener("click", () => {
