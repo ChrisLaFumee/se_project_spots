@@ -15,16 +15,20 @@ const api = new Api({
 });
 
 api
-  .getInitialCards()
-  .then((cards) => {
-    cards.forEach((item) => {
-      const cardElement = getCardElement(item);
-      cardsList.append(cardElement);
+  .getAppInfo()
+  .then(([cards]) => {
+    cards.forEach((card) => {
+      const cardElement = getCardElement(card);
+      cardsList.prepend(cardElement);
     });
+    return api.getUserInfo();
   })
-  .catch((err) => {
-    console.error(err);
-  });
+  .then((user) => {
+    profileName.textContent = user.name;
+    profileDescription.textContent = user.about;
+    profileAvatar.src = user.avatar;
+  })
+  .catch(console.error);
 
 const editModalButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__add-button");
