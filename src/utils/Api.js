@@ -34,7 +34,7 @@ class Api {
 
   editUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: "Patch",
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name,
@@ -48,12 +48,13 @@ class Api {
     });
   }
 
-  addNewCard({ link }) {
+  addNewCard({ link, name }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         link,
+        name,
       }),
     }).then((res) => {
       if (res.ok) {

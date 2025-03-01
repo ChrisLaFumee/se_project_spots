@@ -16,14 +16,11 @@ const api = new Api({
 
 api
   .getAppInfo()
-  .then(([cards]) => {
+  .then(([cards, user]) => {
     cards.forEach((card) => {
       const cardElement = getCardElement(card);
       cardsList.prepend(cardElement);
     });
-    return api.getUserInfo();
-  })
-  .then((user) => {
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
   })
@@ -62,6 +59,7 @@ function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
+
   const cardNameEl = cardElement.querySelector(".card__title");
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardLikeButton = cardElement.querySelector(".card__like-button");
@@ -76,7 +74,12 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", () => {
-    cardElement.remove();
+    api
+      .deleteCard(data._id)
+      .then(() => {
+        cardElement.remove();
+      })
+      .catch(console.error);
   });
 
   cardImageEl.addEventListener("click", () => {
@@ -131,7 +134,7 @@ function handleAddCardSubmit(evt) {
     link: cardLinkInput.value,
   };
   api
-    .addCard(cardData)
+    .addNewCard(cardData)
     .then((card) => {
       const cardElement = getCardElement(card);
       cardsList.prepend(cardElement);
@@ -142,7 +145,6 @@ function handleAddCardSubmit(evt) {
         validationConfig
       );
       closeModal(cardModal);
-      disableButton(cardForm.querySelector(".modal__submit-button"), settings);
     })
     .catch(console.error);
 }
