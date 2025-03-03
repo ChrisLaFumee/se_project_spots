@@ -80,6 +80,11 @@ const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
+/* -------------------------------------------------------------------------- */
+/*                            Delete form elemenets                           */
+/* -------------------------------------------------------------------------- */
+const deleteModal = document.querySelector("#delete-modal");
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
@@ -98,6 +103,7 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", () => {
+    openModal(deleteModal);
     api
       .deleteCard(data._id)
       .then(() => {
