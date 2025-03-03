@@ -26,32 +26,57 @@ api
   })
   .catch(console.error);
 
-const editModalButton = document.querySelector(".profile__edit-button");
-const cardModalButton = document.querySelector(".profile__add-button");
-const profileName = document.querySelector(".profile__name");
-const profileDescription = document.querySelector(".profile__description");
-
+/* -------------------------------------------------------------------------- */
+/*                            Modals for listeners                            */
+/* -------------------------------------------------------------------------- */
 const modals = document.querySelectorAll(".modal");
 
 /* -------------------------------------------------------------------------- */
-/*                      Comment Divider = Shift + Alt + X                     */
+/*                              Profile elements                              */
 /* -------------------------------------------------------------------------- */
+const editModalButton = document.querySelector(".profile__edit-button");
+const cardModalButton = document.querySelector(".profile__add-button");
+const avatarModalButton = document.querySelector(".profile__avatar-button");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".profile__avatar");
 
+/* -------------------------------------------------------------------------- */
+/*                          Avatar form elements                          */
+/* -------------------------------------------------------------------------- */
+const avatarModal = document.querySelector("#avatar-modal");
+const avatarForm = avatarModal.querySelector(".modal__form");
+const avatarModalCloseButton = avatarModal.querySelector(
+  ".modal__close-button"
+);
+const avatarLinkInput = avatarModal.querySelector("#profile-avatar-input");
+
+/* -------------------------------------------------------------------------- */
+/*                      Edit form elements                                    */
+/* -------------------------------------------------------------------------- */
 const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
 
+/* -------------------------------------------------------------------------- */
+/*                                Card elements                               */
+/* -------------------------------------------------------------------------- */
 const cardModal = document.querySelector("#add-card-modal");
 const cardForm = cardModal.querySelector(".modal__form");
-const cardSubmitButton = cardModal.querySelector(".modal__submit-button");
 const cardNameInput = cardModal.querySelector("#add-card-name-input");
 const cardLinkInput = cardModal.querySelector("#add-card-link-input");
 
+/* -------------------------------------------------------------------------- */
+/*                            Preview Image Popups                            */
+/* -------------------------------------------------------------------------- */
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImageEl = previewModal.querySelector(".modal__image");
 const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 
+/* -------------------------------------------------------------------------- */
+/*                              Card related elements                         */
+/* -------------------------------------------------------------------------- */
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
@@ -59,15 +84,14 @@ function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
-
-  const cardNameEl = cardElement.querySelector(".card__title");
-  const cardImageEl = cardElement.querySelector(".card__image");
+  const cardTitleElement = cardElement.querySelector(".card__title");
+  const cardImageElement = cardElement.querySelector(".card__image");
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
 
-  cardNameEl.textContent = data.name;
-  cardImageEl.src = data.link;
-  cardImageEl.alt = data.name;
+  cardTitleElement.textContent = data.name;
+  cardImageElement.src = data.link;
+  cardImageElement.alt = data.name;
 
   cardLikeButton.addEventListener("click", () => {
     cardLikeButton.classList.toggle("card__like-button_liked");
@@ -82,7 +106,7 @@ function getCardElement(data) {
       .catch(console.error);
   });
 
-  cardImageEl.addEventListener("click", () => {
+  cardImageElement.addEventListener("click", () => {
     openModal(previewModal);
     previewModalImageEl.src = data.link;
     previewModalCaptionEl.textContent = data.name;
@@ -149,6 +173,21 @@ function handleAddCardSubmit(evt) {
     .catch(console.error);
 }
 
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  api
+    .changeAvatar({
+      avatar: avatarLinkInput.value,
+    })
+    .then((user) => {
+      profileAvatar.src = user.avatar;
+      avatarForm.reset();
+      resetValidation(avatarForm, [avatarLinkInput], validationConfig);
+      closeModal(avatarModal);
+    })
+    .catch(console.error);
+}
+
 editModalButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
@@ -186,7 +225,12 @@ cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
 });
 
+avatarModalButton.addEventListener("click", () => {
+  openModal(avatarModal);
+});
+
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 cardForm.addEventListener("submit", handleAddCardSubmit);
+avatarForm.addEventListener("submit", handleAvatarFormSubmit);
 
 enableValidation(validationConfig);
