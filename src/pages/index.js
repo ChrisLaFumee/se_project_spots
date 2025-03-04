@@ -1,4 +1,5 @@
 import "../pages/index.css";
+import { setButtonText } from "../utils/helpers.js";
 import {
   enableValidation,
   validationConfig,
@@ -134,6 +135,8 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+  setButtonText(submittButton, true, "Saving...");
+
   api
     .editUserInfo({
       name: nameInput.value,
@@ -155,6 +158,7 @@ function handleEditFormSubmit(evt) {
       );
     })
     .catch(console.error);
+  setButtonText(submittButton, true, "Save");
 }
 
 function handleAddCardSubmit(evt) {
