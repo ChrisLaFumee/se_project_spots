@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import { setButtonText } from "../utils/helpers.js";
+import { setButtonText, disableButton } from "../utils/helpers.js";
 import {
   enableValidation,
   validationConfig,
@@ -24,6 +24,7 @@ api
     });
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
+    profileAvatar.src = user.avatar; // Ensure the avatar URL is updated
   })
   .catch(console.error);
 
@@ -59,6 +60,7 @@ const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
+const submitButton = editFormElement.querySelector(".modal__submit-button");
 
 /* -------------------------------------------------------------------------- */
 /*                                Card elements                               */
@@ -82,9 +84,11 @@ const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
 /* -------------------------------------------------------------------------- */
-/*                            Delete form elemenets                           */
+/*                            Delete form elements                            */
 /* -------------------------------------------------------------------------- */
 const deleteModal = document.querySelector("#delete-modal");
+const deleteForm = deleteModal.querySelector(".modal__form");
+let cardToDelete = null;
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -95,6 +99,8 @@ function getCardElement(data) {
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
 
+  cardElement.dataset.id = data._id;
+
   cardTitleElement.textContent = data.name;
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
@@ -104,13 +110,8 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", () => {
+    cardToDelete = data._id;
     openModal(deleteModal);
-    api
-      .deleteCard(data._id)
-      .then(() => {
-        cardElement.remove();
-      })
-      .catch(console.error);
   });
 
   cardImageElement.addEventListener("click", () => {
@@ -122,6 +123,18 @@ function getCardElement(data) {
 
   return cardElement;
 }
+
+deleteForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  api
+    .deleteCard(cardToDelete)
+    .then(() => {
+      const cardElement = document.querySelector(`[data-id="${cardToDelete}"]`);
+      cardElement.remove();
+      closeModal(deleteModal);
+    })
+    .catch(console.error);
+});
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
@@ -135,7 +148,7 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  setButtonText(submittButton, true, "Saving...");
+  setButtonText(submitButton, true, "Saving...");
 
   api
     .editUserInfo({
@@ -152,13 +165,10 @@ function handleEditFormSubmit(evt) {
         validationConfig
       );
       closeModal(editModal);
-      disableButton(
-        editFormElement.querySelector(".modal__submit-button"),
-        settings
-      );
+      disableButton(editFormElement.querySelector(".modal__submit-button"));
     })
     .catch(console.error);
-  setButtonText(submittButton, true, "Save");
+  setButtonText(submitButton, true, "Save");
 }
 
 function handleAddCardSubmit(evt) {
@@ -185,6 +195,9 @@ function handleAddCardSubmit(evt) {
 
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
+  const submitButton = avatarForm.querySelector(".modal__submit-button");
+  setButtonText(submitButton, true, "Saving...");
+
   api
     .changeAvatar({
       avatar: avatarLinkInput.value,
@@ -196,6 +209,7 @@ function handleAvatarFormSubmit(evt) {
       closeModal(avatarModal);
     })
     .catch(console.error);
+  setButtonText(submitButton, true, "Save");
 }
 
 editModalButton.addEventListener("click", () => {
