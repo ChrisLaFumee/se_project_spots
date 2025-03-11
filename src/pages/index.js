@@ -15,16 +15,19 @@ const api = new Api({
   },
 });
 
+let userId;
+
 api
   .getAppInfo()
   .then(([cards, user]) => {
+    userId = user._id;
     cards.forEach((card) => {
       const cardElement = getCardElement(card);
       cardsList.prepend(cardElement);
     });
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
-    profileAvatar.src = user.avatar; // Ensure the avatar URL is updated
+    profileAvatar.src = user.avatar;
   })
   .catch(console.error);
 
@@ -97,6 +100,7 @@ function getCardElement(data) {
   const cardTitleElement = cardElement.querySelector(".card__title");
   const cardImageElement = cardElement.querySelector(".card__image");
   const cardLikeButton = cardElement.querySelector(".card__like-button");
+  const cardLikeCounter = cardElement.querySelector(".card__like-counter");
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
 
   cardElement.dataset.id = data._id;
@@ -105,8 +109,23 @@ function getCardElement(data) {
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
 
+  if (data.likes && data.likes.some((like) => like._id === userId)) {
+    cardLikeButton.classList.add("card__like-button_liked");
+  }
+
   cardLikeButton.addEventListener("click", () => {
-    cardLikeButton.classList.toggle("card__like-button_liked");
+    const isLiked = cardLikeButton.classList.contains(
+      "card__like-button_liked"
+    );
+    api
+      .changeLikeCardStatus(data._id, isLiked)
+      .then((updatedCard) => {
+        data.likes = updatedCard.likes;
+        cardLikeButton.classList.toggle("card__like-button_liked");
+        cardLikeCounter.textContent = updatedCard.likes.length;
+        cardLikeCounter.textContent = data.likes.length;
+      })
+      .catch(console.error);
   });
 
   cardDeleteButton.addEventListener("click", () => {
@@ -144,11 +163,25 @@ function openModal(modal) {
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
   document.removeEventListener("keydown", handleEscKeyPress);
+
+  if (modal === deleteModal) {
+    cardToDelete = null;
+  }
+}
+
+const deleteModalCancelButton = deleteModal.querySelector(
+  ".modal_delete-card_cancel"
+);
+if (deleteModalCancelButton) {
+  deleteModalCancelButton.addEventListener("click", () => {
+    closeModal(deleteModal);
+  });
 }
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  setButtonText(submitButton, true, "Saving...");
+  const submitButton = editModal.querySelector(".modal__submit-button");
+  submitButton.textContent = "Saving...";
 
   api
     .editUserInfo({
@@ -165,10 +198,17 @@ function handleEditFormSubmit(evt) {
         validationConfig
       );
       closeModal(editModal);
-      disableButton(editFormElement.querySelector(".modal__submit-button"));
+      disableButton(
+        editFormElement.querySelector(".modal__submit-button"),
+        validationConfig
+      );
     })
-    .catch(console.error);
-  setButtonText(submitButton, true, "Save");
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      submitButton.textContent = "Save";
+    });
 }
 
 function handleAddCardSubmit(evt) {
@@ -183,6 +223,10 @@ function handleAddCardSubmit(evt) {
       const cardElement = getCardElement(card);
       cardsList.prepend(cardElement);
       cardForm.reset();
+      disableButton(
+        cardForm.querySelector(".modal__submit-button"),
+        validationConfig
+      );
       resetValidation(
         cardForm,
         [cardNameInput, cardLinkInput],
@@ -205,12 +249,13 @@ function handleAvatarFormSubmit(evt) {
     .then((user) => {
       profileAvatar.src = user.avatar;
       avatarForm.reset();
+      disableButton(submitButton, validationConfig);
       resetValidation(avatarForm, [avatarLinkInput], validationConfig);
       closeModal(avatarModal);
     })
     .catch(console.error);
-  setButtonText(submitButton, true, "Save");
 }
+setButtonText(submitButton, true, "Save");
 
 editModalButton.addEventListener("click", () => {
   nameInput.value = profileName.textContent;
