@@ -10,8 +10,3 @@ export function setButtonText(
     button.textContent = defaultText;
   }
 }
-
-export function disableButton(button, settings) {
-  button.disabled = true;
-  button.classList.add(settings.inactiveButtonClass);
-}
