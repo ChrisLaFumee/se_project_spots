@@ -52,9 +52,7 @@ const profileAvatar = document.querySelector(".profile__avatar");
 /* -------------------------------------------------------------------------- */
 const avatarModal = document.querySelector("#avatar-modal");
 const avatarForm = avatarModal.querySelector(".modal__form");
-const avatarModalCloseButton = avatarModal.querySelector(
-  ".modal__close-button"
-);
+const avatarSubmitButton = avatarForm.querySelector(".modal__submit-button");
 const avatarLinkInput = avatarModal.querySelector("#profile-avatar-input");
 
 /* -------------------------------------------------------------------------- */
@@ -64,7 +62,9 @@ const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
 const nameInput = editModal.querySelector("#profile-name-input");
 const descriptionInput = editModal.querySelector("#profile-description-input");
-const submitButton = editFormElement.querySelector(".modal__submit-button");
+const profileSubmitButton = editFormElement.querySelector(
+  ".modal__submit-button"
+);
 
 /* -------------------------------------------------------------------------- */
 /*                                Card elements                               */
@@ -86,6 +86,7 @@ const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
 /* -------------------------------------------------------------------------- */
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
+const cardSubmitButton = cardForm.querySelector(".modal__submit-button");
 
 /* -------------------------------------------------------------------------- */
 /*                            Delete form elements                            */
@@ -180,7 +181,7 @@ if (deleteModalCancelButton) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  setButtonText(submitButton, true, "Saving...");
+  setButtonText(profileSubmitButton, true, "Saving...");
 
   api
     .editUserInfo({
@@ -206,14 +207,14 @@ function handleEditFormSubmit(evt) {
       console.error(err);
     })
     .finally(() => {
-      setButtonText(submitButton, false, "Save");
+      setButtonText(profileSubmitButton, false, "Save");
     });
 }
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
+  setButtonText(cardSubmitButton, true, "Saving...");
 
-  setButtonText(submitButton, true, "Saving...");
   const cardData = {
     name: cardNameInput.value,
     link: cardLinkInput.value,
@@ -237,13 +238,13 @@ function handleAddCardSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(submitButton, false, "Save");
+      setButtonText(profileSubmitButton, false, "Save");
     });
 }
 
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
-  setButtonText(submitButton, true, "Saving...");
+  setButtonText(avatarSubmitButton, true, "Saving...");
 
   api
     .changeAvatar({
@@ -261,7 +262,7 @@ function handleAvatarFormSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(submitButton, false, "Save");
+      setButtonText(profileSubmitButton, false, "Save");
     });
 }
 
