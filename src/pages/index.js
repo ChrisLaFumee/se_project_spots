@@ -192,11 +192,6 @@ function handleEditFormSubmit(evt) {
       profileName.textContent = user.name;
       profileDescription.textContent = user.about;
       editFormElement.reset();
-      resetValidation(
-        editFormElement,
-        [nameInput, descriptionInput],
-        validationConfig
-      );
       closeModal(editModal);
       disableButton(
         editFormElement.querySelector(".modal__submit-button"),
@@ -229,16 +224,11 @@ function handleAddCardSubmit(evt) {
         cardForm.querySelector(".modal__submit-button"),
         validationConfig
       );
-      resetValidation(
-        cardForm,
-        [cardNameInput, cardLinkInput],
-        validationConfig
-      );
       closeModal(cardModal);
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(profileSubmitButton, false, "Save");
+      setButtonText(cardSubmitButton, false, "Save");
     });
 }
 
@@ -262,7 +252,7 @@ function handleAvatarFormSubmit(evt) {
     })
     .catch(console.error)
     .finally(() => {
-      setButtonText(profileSubmitButton, false, "Save");
+      setButtonText(avatarSubmitButton, false, "Save");
     });
 }
 
