@@ -41,7 +41,7 @@ const toggleButtonState = (inputList, buttonEl, config) => {
   }
 };
 
-const disableButton = (buttonEl, { inactiveButtonClass }) => {
+export const disableButton = (buttonEl, { inactiveButtonClass }) => {
   buttonEl.disabled = true;
   buttonEl.classList.add(inactiveButtonClass);
 };
@@ -51,10 +51,9 @@ const enableButton = (buttonEl, { inactiveButtonClass }) => {
   buttonEl.classList.remove(inactiveButtonClass);
 };
 
-const resetValidation = (formEl, inputList, config) => {
+export const resetValidation = (formEl, inputList, config) => {
   inputList.forEach((input) => {
     hideInputError(formEl, input, config);
-    resetValidation(formEl, inputList, config);
   });
 };
 
